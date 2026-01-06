@@ -1,0 +1,463 @@
+/* =========================
+   DARK INDUSTRIAL THEME
+   LoRaWAN Vehicle Tracking Dashboard
+========================= */
+
+:root {
+  --bg-main: #0b0e13;
+  --bg-panel: #141824;
+  --bg-panel-alt: #1b2030;
+  --bg-card: #1e2436;
+
+  --text-primary: #e6eaf0;
+  --text-secondary: #8a90a2;
+  --text-muted: #5a6070;
+
+  --accent: #4f7fff;
+  --success: #2ecc71;
+  --idle: #3498db;
+  --warning: #f39c12;
+  --danger: #e74c3c;
+
+  --border: rgba(255, 255, 255, 0.08);
+  --border-light: rgba(255, 255, 255, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+/* =========================
+   DASHBOARD LAYOUT
+========================= */
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.main {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background-color: var(--bg-panel);
+  border-bottom: 1px solid var(--border);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, var(--accent), #7c3aed);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.header h1 {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.header .subtitle {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-left: 12px;
+  padding: 4px 8px;
+  background: var(--bg-panel-alt);
+  border-radius: 4px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--success);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--success);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* =========================
+   VEHICLE LIST PANEL
+========================= */
+
+.vehicle-list {
+  background-color: var(--bg-panel);
+  border-right: 1px solid var(--border);
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.vehicle-list h3 {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.vehicle-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  margin-bottom: 6px;
+  border-radius: 8px;
+  background-color: var(--bg-panel-alt);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.vehicle-item:hover {
+  background-color: var(--bg-card);
+  transform: translateX(2px);
+}
+
+.vehicle-item.active {
+  background-color: rgba(79, 127, 255, 0.15);
+  border: 1px solid rgba(79, 127, 255, 0.3);
+}
+
+.vehicle-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.vehicle-icon {
+  font-size: 18px;
+}
+
+.vehicle-details h4 {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.vehicle-details span {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.vehicle-status {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.vehicle-status.moving {
+  color: var(--success);
+  background: rgba(46, 204, 113, 0.15);
+}
+
+.vehicle-status.idle {
+  color: var(--idle);
+  background: rgba(52, 152, 219, 0.15);
+}
+
+.vehicle-status.alert {
+  color: var(--danger);
+  background: rgba(231, 76, 60, 0.15);
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* =========================
+   MAP VIEW
+========================= */
+
+.map-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+}
+
+.leaflet-container {
+  background: #0f121a;
+  font-family: inherit;
+}
+
+/* Custom map controls */
+.leaflet-control-zoom {
+  border: none !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+.leaflet-control-zoom a {
+  background-color: var(--bg-panel) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border) !important;
+}
+
+.leaflet-control-zoom a:hover {
+  background-color: var(--bg-panel-alt) !important;
+}
+
+/* Vehicle marker */
+.vehicle-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease;
+}
+
+.vehicle-marker:hover {
+  transform: scale(1.2);
+}
+
+/* Custom popup */
+.leaflet-popup-content-wrapper {
+  background-color: var(--bg-panel);
+  color: var(--text-primary);
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.leaflet-popup-content {
+  margin: 12px 14px;
+  font-size: 12px;
+}
+
+.leaflet-popup-tip {
+  background-color: var(--bg-panel);
+}
+
+.popup-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.popup-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.popup-label {
+  color: var(--text-secondary);
+}
+
+/* Zone tooltip */
+.leaflet-tooltip {
+  background-color: var(--bg-panel);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.leaflet-tooltip-top:before {
+  border-top-color: var(--bg-panel);
+}
+
+/* =========================
+   EVENTS TIMELINE
+========================= */
+
+.events-panel {
+  background-color: var(--bg-panel);
+  border-top: 1px solid var(--border);
+  padding: 12px 16px;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.events-panel h3 {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.event-item {
+  display: grid;
+  grid-template-columns: 100px 80px 120px 1fr;
+  align-items: center;
+  font-size: 12px;
+  padding: 8px 10px;
+  background: var(--bg-panel-alt);
+  border-radius: 6px;
+}
+
+.event-time {
+  color: var(--text-muted);
+  font-family: monospace;
+  font-size: 11px;
+}
+
+.event-vehicle {
+  font-weight: 500;
+}
+
+.event-type {
+  font-weight: 500;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.event-type.entry {
+  color: var(--success);
+  background: rgba(46, 204, 113, 0.15);
+}
+
+.event-type.exit {
+  color: var(--idle);
+  background: rgba(52, 152, 219, 0.15);
+}
+
+.event-type.alert {
+  color: var(--danger);
+  background: rgba(231, 76, 60, 0.15);
+}
+
+.event-zone {
+  color: var(--text-secondary);
+}
+
+/* =========================
+   STATS CARDS (Optional)
+========================= */
+
+.stats-bar {
+  display: flex;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border);
+}
+
+.stat-card {
+  flex: 1;
+  padding: 12px 16px;
+  background: var(--bg-panel-alt);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.stat-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+  .main {
+    grid-template-columns: 1fr;
+  }
+  
+  .vehicle-list {
+    display: none;
+  }
+}

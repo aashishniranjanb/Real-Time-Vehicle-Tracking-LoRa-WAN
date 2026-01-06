@@ -1,0 +1,30 @@
+# PlatformIO
+.pio/
+build/
+*.bin
+*.elf
+
+# IDE
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+env/
+venv/
+.venv/
+
+# Environment & Secrets
+.env
+*.env.local
+firebase-credentials.json
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
