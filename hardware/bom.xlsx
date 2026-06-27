@@ -1,0 +1,13 @@
+Component,Part Number,Package,Description,Quantity,Reference Designator,Estimated Cost (INR)
+ESP32 NodeMCU Development Board,ESP32-WROOM-32D,DIP-38,Dual-Core MCU with Wi-Fi/Bluetooth,1,U1,387
+U-blox NEO-6M GPS Module,NEO-6M,Module,GPS Module with Antenna,1,U2,430
+SX1278 LoRa Module,RFM95W-868S2,SMD-16,868/915 MHz SPI Transceiver,1,U3,301
+Li-Po Battery (3.7 V 2000 mAh),3.7V 2000mAh,2-Pin JST-PH,Lithium Polymer Battery,1,BATT1,516
+Resistor 100 kOhm,RC0805FR-07100KL,0805,ADC Battery Divider Resistor (1% 1/8 W),2,R1 R2,9
+Capacitor 10 uF,CC0805KKX7R7BB106,0805,Decoupling Filter Capacitor (10 V),3,C1 C2 C3,13
+Slide Switch,SS-12D00-G5,Through-Hole,Power ON/OFF Switch,1,SW1,22
+SMA Antenna Connector,SMA-KE,Through-Hole,Female SMA RF Connector (90 degree),1,J1,43
+915 MHz Coil Spring Antenna,Spring-915,Through-Hole,LoRa Helical Antenna,1,ANT1,26
+PCB Prototype Board,FR4-Double,Custom,2-Layer Custom Tracking Board,1,PCB1,129
+Total Estimated Unit Cost,,,,,,1876
+Note: Exchange rate: 1 USD = 86 INR. Cost is theoretical and actual retail prices in India may vary based on quantity and local suppliers (e.g. Robu.in Evelta Sunrom Mouser India DigiKey India).,,,,,,

@@ -1,0 +1,455 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 5 0 R >> >> /Contents 4 0 R >>
+endobj
+4 0 obj
+<< /Length 4468 >>
+stream
+BT
+/F1 14 Tf
+0.1 0.2 0.5 rg
+80 730 Td
+(Industrial Fleet Tracking System - Hardware Block Diagram) Tj
+ET
+0.94 0.96 0.99 rg
+210 660 180 40 re
+f
+0.2 0.2 0.2 RG
+1.2 w
+210 660 180 40 re
+S
+BT
+/F1 9 Tf
+0.15 0.15 0.15 rg
+266.4 685 Td
+(Li-ion Battery) Tj
+ET
+BT
+/F1 9 Tf
+0.15 0.15 0.15 rg
+261.6 674 Td
+((3.7V / 2000mAh)) Tj
+ET
+0.94 0.96 0.99 rg
+210 580 180 40 re
+f
+0.2 0.2 0.2 RG
+1.2 w
+210 580 180 40 re
+S
+BT
+/F1 9 Tf
+0.15 0.15 0.15 rg
+266.4 605 Td
+(3.3V Regulator) Tj
+ET
+BT
+/F1 9 Tf
+0.15 0.15 0.15 rg
+268.8 594 Td
+((AP2112K-3.3)) Tj
+ET
+0.94 0.96 0.99 rg
+60 330 200 200 re
+f
+0.2 0.2 0.2 RG
+1.2 w
+60 330 200 200 re
+S
+BT
+/F1 9 Tf
+0.15 0.15 0.15 rg
+131.2 515 Td
+(ESP32 DevKit) Tj
+ET
+BT
+/F1 9 Tf
+0.15 0.15 0.15 rg
+160.0 504 Td
+() Tj
+ET
+BT
+/F1 9 Tf
+0.15 0.15 0.15 rg
+160.0 493 Td
+() Tj
+ET
+BT
+/F1 9 Tf
+0.15 0.15 0.15 rg
+160.0 482 Td
+() Tj
+ET
+BT
+/F1 9 Tf
+0.15 0.15 0.15 rg
+160.0 471 Td
+() Tj
+ET
+BT
+/F1 9 Tf
+0.15 0.15 0.15 rg
+160.0 460 Td
+() Tj
+ET
+BT
+/F1 9 Tf
+0.15 0.15 0.15 rg
+104.80000000000001 449 Td
+(GPIO18 -----------> SCK) Tj
+ET
+BT
+/F1 9 Tf
+0.15 0.15 0.15 rg
+102.4 438 Td
+(GPIO19 <----------- MISO) Tj
+ET
+BT
+/F1 9 Tf
+0.15 0.15 0.15 rg
+102.4 427 Td
+(GPIO23 -----------> MOSI) Tj
+ET
+BT
+/F1 9 Tf
+0.15 0.15 0.15 rg
+104.80000000000001 416 Td
+(GPIO5  -----------> NSS) Tj
+ET
+BT
+/F1 9 Tf
+0.15 0.15 0.15 rg
+100.0 405 Td
+(GPIO14 -----------> RESET) Tj
+ET
+BT
+/F1 9 Tf
+0.15 0.15 0.15 rg
+102.4 394 Td
+(GPIO26 <----------- DIO0) Tj
+ET
+0.94 0.96 0.99 rg
+340 330 200 200 re
+f
+0.2 0.2 0.2 RG
+1.2 w
+340 330 200 200 re
+S
+BT
+/F1 9 Tf
+0.15 0.15 0.15 rg
+399.2 515 Td
+(NEO-6M GPS Module) Tj
+ET
+BT
+/F1 9 Tf
+0.15 0.15 0.15 rg
+440.0 504 Td
+() Tj
+ET
+BT
+/F1 9 Tf
+0.15 0.15 0.15 rg
+440.0 493 Td
+() Tj
+ET
+BT
+/F1 9 Tf
+0.15 0.15 0.15 rg
+440.0 482 Td
+() Tj
+ET
+BT
+/F1 9 Tf
+0.15 0.15 0.15 rg
+440.0 471 Td
+() Tj
+ET
+BT
+/F1 9 Tf
+0.15 0.15 0.15 rg
+440.0 460 Td
+() Tj
+ET
+BT
+/F1 9 Tf
+0.15 0.15 0.15 rg
+375.2 449 Td
+(Pin TX -------> RX (GPIO16)) Tj
+ET
+BT
+/F1 9 Tf
+0.15 0.15 0.15 rg
+375.2 438 Td
+(Pin RX <------- TX (GPIO17)) Tj
+ET
+BT
+/F1 9 Tf
+0.15 0.15 0.15 rg
+440.0 427 Td
+() Tj
+ET
+BT
+/F1 9 Tf
+0.15 0.15 0.15 rg
+392.0 416 Td
+(UART Baud Rate: 9600) Tj
+ET
+0.94 0.96 0.99 rg
+200 240 200 50 re
+f
+0.2 0.2 0.2 RG
+1.2 w
+200 240 200 50 re
+S
+BT
+/F1 9 Tf
+0.15 0.15 0.15 rg
+244.8 275 Td
+(SX1278 LoRa Transceiver) Tj
+ET
+BT
+/F1 9 Tf
+0.15 0.15 0.15 rg
+261.6 264 Td
+((SPI Connection)) Tj
+ET
+0.94 0.96 0.99 rg
+200 180 200 30 re
+f
+0.2 0.2 0.2 RG
+1.2 w
+200 180 200 30 re
+S
+BT
+/F1 9 Tf
+0.15 0.15 0.15 rg
+232.8 195 Td
+(LoRaWAN Gateway (15m Height)) Tj
+ET
+0.94 0.96 0.99 rg
+200 130 200 30 re
+f
+0.2 0.2 0.2 RG
+1.2 w
+200 130 200 30 re
+S
+BT
+/F1 9 Tf
+0.15 0.15 0.15 rg
+223.2 145 Td
+(MQTT Broker / The Things Network) Tj
+ET
+0.94 0.96 0.99 rg
+200 80 200 30 re
+f
+0.2 0.2 0.2 RG
+1.2 w
+200 80 200 30 re
+S
+BT
+/F1 9 Tf
+0.15 0.15 0.15 rg
+223.2 95 Td
+(Python Backend (Geofence Engine)) Tj
+ET
+0.94 0.99 0.94 rg
+200 30 200 30 re
+f
+0.2 0.2 0.2 RG
+1.2 w
+200 30 200 30 re
+S
+BT
+/F1 9 Tf
+0.15 0.15 0.15 rg
+223.2 45 Td
+(Web Dashboard (React / Firebase)) Tj
+ET
+0.3 0.3 0.3 RG
+1.0 w
+300 660 m
+300 620 l
+S
+297.0 626.0 m
+300 620 l
+303.0 626.0 l
+S
+0.3 0.3 0.3 RG
+1.0 w
+300 580 m
+300 550 l
+S
+0.3 0.3 0.3 RG
+1.0 w
+300 550 m
+160 550 l
+S
+0.3 0.3 0.3 RG
+1.0 w
+160 550 m
+160 530 l
+S
+157.0 536.0 m
+160 530 l
+163.0 536.0 l
+S
+BT
+/F1 8 Tf
+0.4 0.4 0.4 rg
+165.0 537.0 Td
+(3.3V) Tj
+ET
+0.3 0.3 0.3 RG
+1.0 w
+300 550 m
+440 550 l
+S
+0.3 0.3 0.3 RG
+1.0 w
+440 550 m
+440 530 l
+S
+437.0 536.0 m
+440 530 l
+443.0 536.0 l
+S
+BT
+/F1 8 Tf
+0.4 0.4 0.4 rg
+445.0 537.0 Td
+(3.3V) Tj
+ET
+0.3 0.3 0.3 RG
+1.0 w
+260 460 m
+340 460 l
+S
+334.0 457.0 m
+340 460 l
+334.0 463.0 l
+S
+BT
+/F1 8 Tf
+0.4 0.4 0.4 rg
+305.0 457.0 Td
+(UART TX->RX) Tj
+ET
+0.3 0.3 0.3 RG
+1.0 w
+340 440 m
+260 440 l
+S
+266.0 443.0 m
+260 440 l
+266.0 437.0 l
+S
+BT
+/F1 8 Tf
+0.4 0.4 0.4 rg
+305.0 437.0 Td
+(UART RX<-TX) Tj
+ET
+0.3 0.3 0.3 RG
+1.0 w
+160 330 m
+160 305 l
+S
+0.3 0.3 0.3 RG
+1.0 w
+160 305 m
+250 305 l
+S
+0.3 0.3 0.3 RG
+1.0 w
+250 305 m
+250 290 l
+S
+247.0 296.0 m
+250 290 l
+253.0 296.0 l
+S
+0.3 0.3 0.3 RG
+1.0 w
+300 240 m
+300 210 l
+S
+297.0 216.0 m
+300 210 l
+303.0 216.0 l
+S
+BT
+/F1 8 Tf
+0.4 0.4 0.4 rg
+305.0 222.0 Td
+(LoRa RF) Tj
+ET
+0.3 0.3 0.3 RG
+1.0 w
+300 180 m
+300 160 l
+S
+297.0 166.0 m
+300 160 l
+303.0 166.0 l
+S
+BT
+/F1 8 Tf
+0.4 0.4 0.4 rg
+305.0 167.0 Td
+(IP Link) Tj
+ET
+0.3 0.3 0.3 RG
+1.0 w
+300 130 m
+300 110 l
+S
+297.0 116.0 m
+300 110 l
+303.0 116.0 l
+S
+BT
+/F1 8 Tf
+0.4 0.4 0.4 rg
+305.0 117.0 Td
+(MQTT) Tj
+ET
+0.3 0.3 0.3 RG
+1.0 w
+300 80 m
+300 60 l
+S
+297.0 66.0 m
+300 60 l
+303.0 66.0 l
+S
+BT
+/F1 8 Tf
+0.4 0.4 0.4 rg
+305.0 67.0 Td
+(DB Sync) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000004761 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+4831
+%%EOF
