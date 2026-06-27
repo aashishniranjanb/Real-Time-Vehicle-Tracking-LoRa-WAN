@@ -2,8 +2,8 @@
 **ESP32 + GPS (NEO-6M) + LoRaWAN / LoRa P2P**
 
 📍 **Project Status:** Prototype / Experimental System  
-🧠 **Domain:** Embedded Systems · IoT · Low-Power Wireless · Industrial Logistics  
-🛠 **Primary Tech Stack:** ESP32, LoRaWAN (TTN) / LoRa P2P, GPS, Python Backend, Firebase RTDB, React Dashboard  
+🧠 **Domain:** Embedded Systems · IoT · Low-Power Wireless  
+🛠 **Primary Tech Stack:** ESP32, LoRaWAN, GPS, Python (Backend), MQTT, Cloud Dashboard  
 
 ![System Demo](assets/demo.gif)
 
@@ -46,65 +46,60 @@ The goal is to design a **low-power, long-range, and infrastructure-light vehicl
 
 ## 3. Overall System Architecture
 
-The system follows a rich **Device → Gateway → Network → Backend → Dashboard** pipeline optimized for low-power operation and event-driven updates.
+The system follows a **Device → Network → Cloud → Dashboard** architecture optimized for **intermittent connectivity**.
 
-### End-to-End Architecture Data Flow
-
+### High-Level Data Flow
 ```
-+------------------------------------+
-|            ESP32 Node              |
-|   +----------------------------+   |
-|   |         NEO-6M GPS         |   |
-|   +--------------+-------------+   |
-|                  | (UART)          |
-|   +--------------v-------------+   |
-|   |        SX1278 LoRa         |   |
-|   +--------------+-------------+   |
-+------------------|-----------------+
-                   | (865/915 MHz RF)
-                   ▼
-+------------------------------------+
-|          LoRaWAN Gateway           |
-|   - Listens on regional channels   |
-|   - Forwards packets to Network    |
-+------------------|-----------------+
-                   | (UDP / MQTT over IP)
-                   ▼
-+------------------------------------+
-|        The Things Network          |
-|   - Network Server (Deduplication) |
-|   - Decodes AppSKey / NwkSKey      |
-+------------------|-----------------+
-                   | (MQTT Integration)
-                   ▼
-+------------------------------------+
-|            MQTT Broker             |
-|   - Publishes uplink JSON objects  |
-+------------------|-----------------+
-                   | (TCP Connection)
-                   ▼
-+------------------------------------+
-|          Python Backend            |
-|   - Subscribes to device uplinks   |
-|   +--------------+-------------+   |
-|                  |                 |
-|   +--------------v-------------+   |
-|   |       Geofence Engine      |   |
-|   |   - Point-in-Polygon check |   |
-|   +--------------+-------------+   |
-|                  |                 |
-|   +--------------v-------------+   |
-|   |      Firebase Database     |   |
-|   |   - Real-time coordinates  |   |
-|   +--------------+-------------+   |
-+------------------|-----------------+
-                   | (WebSocket / Live Sync)
-                   ▼
-+------------------------------------+
-|          React Dashboard           |
-|   - Live Map Visualization         |
-|   - Alert Banner for Geofence Exits|
-+------------------------------------+
+[ Vehicle Node ]
+       │
+   (LoRa RF)
+       │
+       ▼
+[ LoRaWAN Gateway ]
+       │
+ (Internet / UDP)
+       │
+       ▼
+[ Network Server (TTN) ]
+       │
+     (MQTT)
+       │
+       ▼
+[ Application Backend ]
+       │
+       ▼
+[ Web Dashboard ]
+```
+
+### Architecture Diagram
+![System Architecture](docs/architecture/system_architecture.png)
+
+### Richer End-to-End Node Pipeline
+```
+ESP32 (MCU) + NEO-6M (GPS) + SX1278 (LoRa)
+                         │
+                 (865/915 MHz RF)
+                         ▼
+             LoRaWAN Gateway (Outdoor)
+                         │
+                  (Internet / UDP)
+                         ▼
+             The Things Network (TTN)
+                         │
+                 (MQTT Integration)
+                         ▼
+                    MQTT Broker
+                         │
+                   (Python Client)
+                         ▼
+                 Python Backend API
+                         │
+             ┌───────────┴───────────┐
+             ▼                       ▼
+      Geofence Engine         Firebase RTDB
+             │                       │
+             ▼                       ▼
+      Entry/Exit Alert        React Dashboard
 ```
 
 ---
@@ -138,27 +133,75 @@ Assuming an exchange rate of 1 USD ≈ ₹86, the BOM for a single tracker unit 
 - PCB Layout Files: [pcb/](file:///c:/Users/Home/Downloads/PROJECTS/Real-Time-Vehicle-Tracking-LoRa-WAN/hardware/pcb)
 - Component Bill of Materials: [bom.xlsx](file:///c:/Users/Home/Downloads/PROJECTS/Real-Time-Vehicle-Tracking-LoRa-WAN/hardware/bom.xlsx)
 
+### Design Considerations
+- GPS is duty-cycled to reduce power consumption  
+- ESP32 deep-sleep modes are used aggressively  
+- System designed for easy upgrade (IMU / Solar input in future)
+
+📷 **Wiring Diagram:**  
+![Wiring](docs/hardware/wiring_diagram.png)
+
 ---
 
 ## 5. Firmware Architecture
 
-The firmware is **event-driven** and modular, prioritizing **maximum deep sleep time**.
+The firmware is **event-driven** and optimized for **maximum sleep time**.
 
-### Module Design (Arduino Project: [esp32_tracker/](file:///c:/Users/Home/Downloads/PROJECTS/Real-Time-Vehicle-Tracking-LoRa-WAN/firmware/esp32_tracker/))
-- **`esp32_tracker.ino`**: Coordinates the setup and execution loop.
-- **`config.h`**: Stores central pin assignments, regional frequencies, and settings.
-- **`gps.cpp` / `.h`**: Handles serial GPS connection, NMEA parsing, and location validation.
-- **`lora.cpp` / `.h`**: Controls P2P LoRa radio transmission and power states.
-- **`payload.cpp` / `.h`**: Compresses coordinates and battery voltage into a compact 14-byte binary payload to minimize airtime.
-- **`power.cpp` / `.h`**: Handles deep sleep registers, battery ADC reads, and low battery brownout protection.
-- **`tracking.cpp` / `.h`**: Calculates adaptive sleep intervals by detecting movement. Stores last-known coordinates in deep-sleep-resistant ESP32 RTC memory.
-- **`geofence.cpp` / `.h`**: Local geofencing checks on the edge (e.g. checks if coordinate is inside factory gates).
-- **`logger.cpp` / `.h`**: Pre-formatted debugging logging.
-- **`utils.cpp` / `.h`**: General support utilities (e.g. course heading to compass conversion).
+### Functional Blocks
+- GPS Manager (NMEA parsing)
+- Edge Filtering Logic
+- Adaptive Tracking Controller
+- LoRaWAN Uplink Manager
+- Power Manager
+
+### Firmware Flow
+`Wake → GPS Fix → Filter → Encode Payload → Transmit → Sleep`
+
+### Adaptive Tracking Logic
+- **Moving vehicle:** 30–60s updates  
+- **Stationary vehicle:** 5–10 min heartbeat  
+
+📄 Detailed design:  
+[`docs/firmware/firmware_architecture.md`](docs/firmware/firmware_architecture.md)
+
+🛠 Arduino Modular Firmware Source:  
+[esp32_tracker/](file:///c:/Users/Home/Downloads/PROJECTS/Real-Time-Vehicle-Tracking-LoRa-WAN/firmware/esp32_tracker/)
 
 ---
 
-## 6. Engineering Analysis & Assumptions
+## 6. LoRaWAN Communication Design
+
+- **Protocol:** LoRaWAN Class A  
+- **Reason:** Lowest power consumption  
+- **Region:** IN865 / EU868 / US915  
+- **ADR:** Enabled  
+
+### Payload Design
+- Binary encoded payload (no JSON)
+- Compact latitude & longitude representation
+
+---
+
+## 7. Dashboard & Geofencing Logic
+
+### Features
+- Live map visualization
+- Vehicle markers & trails
+- Polygon-based geofencing
+- Entry / Exit alerts
+- Dwell-time analytics
+
+### Geofencing Logic
+- Zones defined as polygons
+- Point-in-polygon algorithm checks location
+- State transitions trigger alerts
+
+📷 **Geofence Logic Diagram:**  
+![Geofence Diagram](docs/dashboard/screenshots/dashboard_screenshot.png) (Refer to dashboard zone assets)
+
+---
+
+## 8. Engineering Analysis & Assumptions
 
 ### Target Design Goals
 - **Communication Range**: 2–5 km Line-of-Sight (dependent on Spreading Factor and frequency).
@@ -194,7 +237,7 @@ Assuming a **2000 mAh Li-Po battery** (derated to 1800 mAh for aging safety) wit
 
 ---
 
-## 7. Reliability & Failure Handling
+## 9. Reliability & Failure Handling
 
 Reliability is built into the node's firmware to handle common failure states on the factory floor:
 
@@ -236,7 +279,33 @@ on next active cycle
 
 ---
 
-## 8. Experimental & Validation Plan
+## 10. Novel Contributions
+
+This project goes beyond a basic GPS tracker through:
+
+- 🔋 Power-aware adaptive tracking
+- 🧠 Edge-level GPS filtering
+- ⏱ Zone-based dwell-time analytics
+- 📡 Fault-tolerant data handling
+- 📊 Comparative evaluation vs Wi-Fi and cellular
+
+---
+
+## 11. Results & Observations (Prototype Phase)
+
+- Coverage: >2 km in urban test conditions
+- Latency: ~2–5 seconds end-to-end
+- Reliability: Superior penetration vs Wi-Fi
+- Power: Estimated 3–5 days on 2000mAh battery
+  (Weeks possible with aggressive sleep optimization)
+
+📄 Details:
+- [`docs/results/coverage_test.md`](docs/results/coverage_test.md)
+- [`docs/results/power_estimation.md`](docs/results/power_estimation.md)
+
+---
+
+## 12. Experimental & Validation Plan
 
 Recruiters and engineers appreciate verified designs. The following testing protocols are planned to evaluate system performance:
 
@@ -246,6 +315,31 @@ Recruiters and engineers appreciate verified designs. The following testing prot
 - [ ] **Gateway Throughput Testing**: Simulate 50 concurrent active nodes to verify gateway packet collision rates.
 - [ ] **Geofence Edge Latency**: Measure delay from the instant a vehicle crosses a virtual coordinate boundary to the dashboard notification.
 - [ ] **Indoor/Outdoor Transition Profile**: Evaluate time-to-first-fix (TTFF) when a vehicle transitions from an enclosed metal warehouse to an open logistics yard.
+
+---
+
+## 13. Limitations
+
+- GPS does not work indoors or under metal sheds
+- LoRaWAN Class A limits downlink responsiveness
+- Consumer-grade GPS accuracy (~2.5–5 m drift)
+
+---
+
+## 14. Future Improvements
+
+- ☀️ Solar-powered LoRaWAN gateways
+- 📡 Hybrid indoor positioning (Wi-Fi sniffing)
+- 🔁 Node-RED automation for alerts
+- 🚗 IMU-based motion detection
+- 🧩 ERP / MES system integration via MQTT
+
+---
+
+## 15. Conclusion
+
+This project demonstrates a scalable, cost-effective, and low-power vehicle tracking system for industrial environments.
+By combining LoRaWAN's range with embedded edge intelligence, the system bridges the visibility gap in plant logistics and asset movement.
 
 ---
 
